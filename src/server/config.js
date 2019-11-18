@@ -3,6 +3,7 @@ const exphbs = require('express-handlebars');
 const morgan = require('morgan');
 const multer = require('multer');
 const express = require('express');
+const errorHandler = require('errorhandler');
 
 const routes = require('../routes/index.js')
 
@@ -27,9 +28,15 @@ module.exports = app => {
     app.use(express.json());
 
     // Routes
-    routes(app)
+    routes(app);
+
+    // static files
+    app.use(express.static(path.join(__dirname, '../public')));
 
     // Errorhandlers
+    if ('development' == app.get('env')) {
+        app.use(errorHandler)
+    }
 
     return app;
 }
