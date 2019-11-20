@@ -18,9 +18,7 @@ ctrl.index = async (req, res) => {
     await image.save();
     const comments = await Comment.find({ image_id: image._id });
     viewModel.comments = comments;
-    viewModel = await sidebar(viewModel)
-    console.log(viewModel);
-    
+    viewModel = await sidebar(viewModel);
     res.render('image', viewModel);
   } else res.redirect('/');
 };

@@ -3,9 +3,14 @@ const router = express.Router();
 
 const home = require("../controllers/home");
 const image = require("../controllers/image");
+const user = require("../controllers/user");
 
 module.exports = app => {
   app.get("/", home.index);
+
+  app.get("/users/:user_id", user.index);
+  app.post("/signup", user.create);
+  app.post("/login", user.login);
 
   app.get("/images", image.images);
   app.get("/images/:image_id", image.index);
