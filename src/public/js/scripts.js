@@ -1,5 +1,8 @@
+document.getElementById("post-comment").style.display = 'none';
+
 const btnlike = document.getElementById("btn-like");
 const btndelete = document.getElementById("btn-delete");
+const btnToggleComment = document.getElementById("btn-toggle-comment");
 
 const addLike = e => {
   e.preventDefault();
@@ -40,6 +43,18 @@ const deletePost = e => {
   }
 };
 
+const toggleComment = e => {
+    const postComment = document.getElementById("post-comment");
+    if(postComment.style.display === 'none'){
+        postComment.style.display = '';
+    } else {
+        postComment.style.display = "none";
+    };
+}
+
 // Like button request
 if (btnlike) btnlike.addEventListener("click", e => addLike(e));
+// Delete Post request
 if (btndelete) btndelete.addEventListener("click", e => deletePost(e));
+
+if(btnToggleComment) btnToggleComment.addEventListener("click", e => toggleComment(e));
