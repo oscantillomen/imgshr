@@ -8,8 +8,19 @@ const { Image, Comment } = require('../models');
 const ctrl = {};
 
 ctrl.index = async (req, res) => {
+  const viewModel = { image: {}, comments: {}};
+
   const image = await Image.findOne({ filename: {$regex: req.params.image_id} });
-  res.render('image', { image });
+  if (image) {
+    image.views = image.views + 1;
+    viewModel.image = image;
+    await image.save();
+    const comments = await Comment.find({ image_id: image._id });
+    console.log(comments);
+    
+    viewModel.comments = comments;
+    res.render('image', viewModel);
+  } else res.redirect('/');
 };
 
 ctrl.images = async (req, res) => {
@@ -66,7 +77,7 @@ ctrl.comment = async (req, res) => {
     newComment.image_id = image._id;
     await newComment.save();
     res.redirect('/images/' + image.uniqueId);
-  }
+  } else res.redirect('/');
 };
 
 ctrl.remove = (req, res) => {
