@@ -5,12 +5,18 @@ const ctrl = {};
 
 ctrl.index = async (req, res) => {
     const images = await Image.find().sort({ 'timestamp': -1 });
-    let viewModel = { images: {}};
+    let viewModel = { images: {} };
     viewModel.images = images;
     viewModel = await sidebar(viewModel);
-    console.log(viewModel.sidebar.comments[0].image);
-    
     res.render('index', viewModel);
 };
+
+ctrl.login = (req, res) => {
+    res.render('login')
+}
+
+ctrl.signup = (req, res) => {
+    res.render('signup')
+}
 
 module.exports = ctrl;

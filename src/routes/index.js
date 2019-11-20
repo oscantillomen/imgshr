@@ -6,9 +6,10 @@ const image = require("../controllers/image");
 const user = require("../controllers/user");
 
 module.exports = app => {
-  app.get("/", home.index);
-
-  app.get("/users/:user_id", user.index);
+  app.get("/", home.login);
+  app.get("/signup", home.signup)
+  app.get("/feed", home.index)
+  //app.get("/users/:user_id", user.index);
   app.post("/signup", user.create);
   app.post("/login", user.login);
 
