@@ -9,24 +9,20 @@ const sidebar = require('../helpers/sidebar');
 const ctrl = {};
 
 ctrl.index = async (req, res) => {
-  let viewModel = { image: {}, comments: {} };
+  let viewModel = { image: {}, comments: [] };
 
   const image = await Image.findOne({ filename: { $regex: req.params.image_id } });
   if (image) {
-    image.views = image.views + 1;
     viewModel.image = image;
-    await image.save();
     const comments = await Comment.find({ image_id: image._id });
     viewModel.comments = comments;
-    viewModel = await sidebar(viewModel)
-    console.log(viewModel);
-    
-    res.render('image', viewModel);
-  } else res.redirect('/');
+    res.json(viewModel);
+  } else res.status(404).json({ error: 'Image dosnt´t exist!' });
 };
 
 ctrl.images = async (req, res) => {
-  res.json({ msg: "Image uploaded!" });
+  const images = await Image.find().populate('Comment');
+  res.json(images);
 };
 
 ctrl.create = (req, res) => {
@@ -51,11 +47,13 @@ ctrl.create = (req, res) => {
             filename: imgUrl + ext,
             description: req.body.description
           });
-          const imageSaved = await newImg.save();
+          await newImg.save((err, image) => {
+            console.log(image);
+          });
           res.redirect("/images/" + imgUrl);
         } catch (error) {
           await fs.unlink(imageTempPath);
-          res.send(error);
+          res.status(500).json({ error: 'Something went wrong!'});
         }
       } else {
         await fs.unlink(imageTempPath);

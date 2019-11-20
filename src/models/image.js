@@ -1,18 +1,20 @@
 const mongoose = require('mongoose');
 const path = require('path');
-const { Schema } = mongoose;
+const { Schema, model } = mongoose;
+const Comment = require('./comment');
 
-const ImageSchema = new Schema({
-    title: { type: String, },
-    description: { type: String,},
-    filename: { type: String },
+const ImageSchema = Schema({
+    title: String,
+    description: String,
+    filename: String,
     views: { type: Number, default: 0 },
     likes: { type: Number, default: 0 },
-    timestamp: { type: Date, default: Date.now }
+    timestamp: { type: Date, default: Date.now },
+    // comments: [{ type: Schema.Types.ObjectId, ref: Comment }]
 });
 
 ImageSchema.virtual('uniqueId').get(function(){
     return this.filename.replace(path.extname(this.filename), '')
 })
 
-module.exports = mongoose.model("Image", ImageSchema);
+module.exports = model("Image", ImageSchema);
