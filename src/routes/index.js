@@ -9,7 +9,9 @@ module.exports = app => {
   app.get("/", home.index);
 
   app.get('/users', user.users);
-  app.post('/users', user.create);
+  app.get('/users/:user_id', user.index);
+  app.post('/signup', user.create);
+  app.post('/login', user.login);
 
   app.get("/images", image.images);
   app.get("/images/:image_id", image.index);
