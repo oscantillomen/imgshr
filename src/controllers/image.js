@@ -1,9 +1,9 @@
-const path = require('path');
-const { randomNumber } = require('../helpers/libs');
-const fs = require('fs-extra');
-const md5 = require('md5');
+const path = require("path");
+const { randomNumber } = require("../helpers/libs");
+const fs = require("fs-extra");
+const md5 = require("md5");
 
-const { Image, Comment } = require('../models');
+const { Image, Comment } = require("../models");
 
 const ctrl = {};
 
@@ -23,7 +23,6 @@ ctrl.index = async (req, res) => {
 
 ctrl.images = async (req, res) => {
   res.json({ msg: "Image uploaded!" });
-
 };
 
 ctrl.create = (req, res) => {
@@ -87,10 +86,10 @@ ctrl.remove = async (req, res) => {
   const image = await Image.findOne({ filename: { $regex: req.params.image_id }})
   
   if (image) {
-    /*await fs.unlink(path.resolve(`./src/public/upload/${image.filename}`));
+    await fs.unlink(path.resolve(`./src/public/upload/${image.filename}`));
     await Comment.deleteOne({ image_id: image._id });
-    await image.remove();*/
-    res.json(true)
+    await image.remove();
+    res.json(true);
   }
 };
 
