@@ -3,6 +3,8 @@ const exphbs = require('express-handlebars');
 const morgan = require('morgan');
 const multer = require('multer');
 const express = require('express');
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 const errorHandler = require('errorhandler');
 
 const routes = require('../routes/index.js')
@@ -22,6 +24,8 @@ module.exports = app => {
     app.set('view engine', '.hbs')
 
     // Middlewares
+    app.use(cookieParser());
+    app.use(session({ secret: "Shh, its a secret!" }));
     app.use(morgan('dev'));
     app.use(multer({dest: path.join(__dirname, '../public/upload/temp')}).single('image'));
     app.use(express.urlencoded({ extended: false }));
