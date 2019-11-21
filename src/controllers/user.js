@@ -4,6 +4,7 @@ const ctrl = {};
 
 ctrl.create = async (req, res) => {
   const {
+    user,
     name,
     email,
     password,
@@ -17,6 +18,7 @@ ctrl.create = async (req, res) => {
   } else {
     if (password === confirm_password) {
       const newUser = new User({
+        user,
         name,
         email,
         password,
