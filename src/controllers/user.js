@@ -12,8 +12,8 @@ ctrl.create = async (req, res) => {
     birthdate,
     phone
   } = req.body;
-  const user = await User.findOne({ email });
-  if (user) {
+  const getuser = await User.findOne({ email });
+  if (getuser) {
     res.status(500).json({ error: `Email ${email} is already in use` });
   } else {
     if (password === confirm_password) {
